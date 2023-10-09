@@ -1,0 +1,96 @@
+import java.util.Random;
+
+class Funcionario {
+    private String nome;
+    private int codigoFuncional;
+    private double renda;
+    private String escolaridade;
+    private String instituicao;
+
+    public Funcionario(String nome, int codigoFuncional, String escolaridade, String instituicao) {
+        this.nome = nome;
+        this.codigoFuncional = codigoFuncional;
+        this.renda = 1000.0;
+        this.escolaridade = escolaridade;
+        this.instituicao = instituicao;
+
+        if (escolaridade.equals("Ensino Básico")) {
+            aumentarRenda(0.10);
+        } else if (escolaridade.equals("Ensino Médio")) {
+            aumentarRenda(0.50);
+        } else if (escolaridade.equals("Nível Superior")) {
+            aumentarRenda(1.0);
+        }
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getCodigoFuncional() {
+        return codigoFuncional;
+    }
+
+    public double getRenda() {
+        return renda;
+    }
+
+    public void aumentarRenda(double percentualAumento) {
+        renda += renda * percentualAumento;
+    }
+
+    public String getEscolaridade() {
+        return escolaridade;
+    }
+
+    public String getInstituicao() {
+        return instituicao;
+    }
+}
+
+public class Empresa {
+    public static void main(String[] args) {
+        Random random = new Random();
+        Funcionario[] funcionarios = new Funcionario[10];
+        
+        // Distribuição: 40% ensino básico, 40% ensino médio, 20% nível superior
+        int numFuncionariosBasico = 4;
+        int numFuncionariosMedio = 4;
+        int numFuncionariosSuperior = 2;
+        
+        for (int i = 0; i < numFuncionariosBasico; i++) {
+            funcionarios[i] = new Funcionario("Funcionario " + (i + 1), i + 1, "Ensino Básico", "");
+        }
+        
+        for (int i = numFuncionariosBasico; i < numFuncionariosBasico + numFuncionariosMedio; i++) {
+            funcionarios[i] = new Funcionario("Funcionario " + (i + 1), i + 1, "Ensino Médio", "");
+        }
+        
+        for (int i = numFuncionariosBasico + numFuncionariosMedio; i < 10; i++) {
+            funcionarios[i] = new Funcionario("Funcionario " + (i + 1), i + 1, "Nível Superior", "");
+        }
+
+        // Calcula e apresenta os custos da empresa
+        double custoTotal = 0;
+        double custoBasico = 0;
+        double custoMedio = 0;
+        double custoSuperior = 0;
+
+        for (Funcionario funcionario : funcionarios) {
+            custoTotal += funcionario.getRenda();
+
+            if (funcionario.getEscolaridade().equals("Ensino Básico")) {
+                custoBasico += funcionario.getRenda();
+            } else if (funcionario.getEscolaridade().equals("Ensino Médio")) {
+                custoMedio += funcionario.getRenda();
+            } else if (funcionario.getEscolaridade().equals("Nível Superior")) {
+                custoSuperior += funcionario.getRenda();
+            }
+        }
+
+        System.out.println("Custo Total: R$ " + custoTotal);
+        System.out.println("Custo Ensino Básico: R$ " + custoBasico);
+        System.out.println("Custo Ensino Médio: R$ " + custoMedio);
+        System.out.println("Custo Nível Superior: R$ " + custoSuperior);
+    }
+}
